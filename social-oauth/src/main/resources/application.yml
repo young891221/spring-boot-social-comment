@@ -2,8 +2,8 @@ facebook :
   client :
 #    client-id: 105872199494230
 #    client-secret: 2c4a7c46e879bf7fdfa416e5a5ed5793
-    client-id : 785290518285386
-    client-secret: d6e6278de41fa68f79dfedaa2a89dc19
+    client-id : 465358593799840
+    client-secret: a37286e3dae00dcdce628f40dfe363f5
     access-token-uri: https://graph.facebook.com/oauth/access_token
     user-authorization-uri: https://www.facebook.com/dialog/oauth?display=popup
     token-name: oauth_token
