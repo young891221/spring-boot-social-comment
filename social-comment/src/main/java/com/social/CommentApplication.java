@@ -7,6 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CommentApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CommentApplication.class, args);
+		SpringApplication.run(SocialApplication.class, args);
 	}
 }
