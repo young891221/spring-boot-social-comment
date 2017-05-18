@@ -1,0 +1,49 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("io.spring.gradle:dependency-management-plugin:1.0.2.RELEASE")
+	}
+}
+
+subprojects {
+	group 'com.social'
+	version '1.0'
+	project.version = "1.0.0" + '-' + new Date().format('yyyyMMdd-HHmmss')
+
+	apply plugin: 'java'
+	apply plugin: 'spring-boot'
+	apply plugin: 'io.spring.dependency-management'
+
+	sourceCompatibility = 1.8
+
+	jar {
+		baseName = project.name
+		version = project.version
+		exclude("build/**")
+		/*ant.propertyfile(file: "src/main/resources/properties/version.properties") {
+            entry( key: "project.version", value: version)
+        }*/
+	}
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		testCompile group: 'junit', name: 'junit', version: '4.12'
+	}
+}
+
+project(':social-oauth')
+
+project(':social-comment') {
+	dependencies {
+		compile project(':social-oauth')
+	}
+}

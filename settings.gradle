@@ -1,0 +1,4 @@
+rootProject.name = 'spring-social-comment'
+
+include 'social-oauth', 'social-comment'
+
