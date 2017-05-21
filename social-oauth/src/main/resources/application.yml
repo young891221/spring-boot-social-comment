@@ -1,7 +1,8 @@
+server:
+  port: 8080
+
 facebook :
   client :
-#    client-id: 105872199494230
-#    client-secret: 2c4a7c46e879bf7fdfa416e5a5ed5793
     client-id : 465358593799840
     client-secret: a37286e3dae00dcdce628f40dfe363f5
     access-token-uri: https://graph.facebook.com/oauth/access_token
@@ -12,19 +13,17 @@ facebook :
     scope: publish_actions, public_profile, email
   resource:
     user-info-uri: https://graph.facebook.com/me
-server:
-  port: 80
 
-#twitter:
-#  client:
-#      client-id: UkCGdoA6PLJvnjC2jDwQ86tar
-#      client-secret: e3YwL5IdjAdMXJ9VrStykDwEsBquT8ecENpfDddm8kBS6eDvxw
-#      request-token-url: https://api.twitter.com/oauth/request_token
-#      authenticate-token-url: https://api.twitter.com/oauth/authenticate
-#      access-token-url: https://api.twitter.com/oauth/access_token
-#      authorization-uri: https://api.twitter.com/oauth/authorize
-#      token-name: oauth_token
-#      authentication-scheme: query
-#      client-authentication-scheme: form
-#  resource:
-#      user-info-uri: https://api.twitter.com/oauth/token
+twitter:
+  client:
+    client-id: UkCGdoA6PLJvnjC2jDwQ86tar
+    client-secret: e3YwL5IdjAdMXJ9VrStykDwEsBquT8ecENpfDddm8kBS6eDvxw
+#    request-token-url: https://api.twitter.com/oauth/request_token
+#    authenticate-token-url: https://api.twitter.com/oauth/authenticate
+    access-token-uri: https://api.twitter.com/oauth/access_token
+    user-authorization-uri: https://api.twitter.com/oauth/authorize
+    token-name: oauth_token
+    authentication-scheme: query
+    client-authentication-scheme: form
+  resource:
+    user-info-uri: https://api.twitter.com/oauth2/token

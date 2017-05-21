@@ -2,7 +2,6 @@ package com.social.controller;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -10,10 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by KimYJ on 2017-05-18.
+ * Created by youngjae on 2017. 5. 21..
  */
-@Controller
-public class FacebookController {
+@org.springframework.web.bind.annotation.RestController
+public class RestController {
 
     @GetMapping(value = "/authentication")
     public boolean authentication(Model model) {

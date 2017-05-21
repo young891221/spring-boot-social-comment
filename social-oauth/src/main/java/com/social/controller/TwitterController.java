@@ -54,7 +54,7 @@ public class TwitterController {
 
     TwitterConnectionFactory twitterConnectionFactory;
 
-    @GetMapping(value = "/login/twitter")
+    //@GetMapping(value = "/login/twitter")
     public void twitter(HttpServletRequest request, HttpServletResponse response) {
         twitterConnectionFactory = new TwitterConnectionFactory(twitterId, twitterSecret);
         OAuth1Operations operations = twitterConnectionFactory.getOAuthOperations();
@@ -70,7 +70,7 @@ public class TwitterController {
         }
     }
 
-    @GetMapping(value = "/twitter/complete")
+    //@GetMapping(value = "/twitter/complete")
     public String twitterComplete(Model model, HttpServletRequest request, HttpServletResponse response, @RequestParam(name = "oauth_token") String oAuthToken, @RequestParam(name = "oauth_verifier") String oauthVerifier) {
         if(SecurityContextHolder.getContext().getAuthentication() != null) {
             String before = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[0].toString().split("_")[1];
@@ -108,51 +108,6 @@ public class TwitterController {
         Cookie cookie = new Cookie("userIdx", user.getUserIdx()+"");
         response.addCookie(cookie);
         return "complete";
-    }
-
-    @GetMapping(value = "/facebook/complete")
-    public String facebookComplete(HttpServletRequest request, HttpServletResponse response, Model model, OAuth2Authentication auth, Authentication authentication) {
-
-        if(authentication != null) {
-            authentication.setAuthenticated(false);
-//            SecurityContextHolder.getContext().setAuthentication(null);
-            request.getServletContext().removeAttribute("token");
-            request.getServletContext().removeAttribute("connection");
-        }
-
-        String userName;
-        String userPrincipal;
-        String socialValue;
-
-        Map<String, String> map = (HashMap<String, String>) auth.getUserAuthentication().getDetails();
-
-//        logger.info(auth.getPrincipal().toString(), auth.getCredentials().toString());
-
-        userName = map.get("name");
-        userPrincipal = map.get("id");
-
-        String userImage = "http://graph.facebook.com/" + userPrincipal + "/picture?type=square";
-
-        //ROLE_FACEBOOK 으로 들어오기 때문에 facebook만 넘겨줌
-        socialValue = auth.getAuthorities().toArray()[0].toString().split("_")[1];
-
-        String userUrl = "https://facebook.com/"+userPrincipal;
-//        logger.info(SocialType.valueOf(socialValue).toString());
-        if (!userService.isUserExist(userName, userPrincipal, SocialType.valueOf(socialValue))) {
-            userService.saveUser(userName, userPrincipal, SocialType.valueOf(socialValue), userImage, userUrl);
-        }
-
-        User user = userService.getUser(userName, userPrincipal, SocialType.valueOf(socialValue));
-
-        Cookie cookie = new Cookie("userIdx", user.getUserIdx()+"");
-        response.addCookie(cookie);
-
-        return "complete";
-    }
-
-    @GetMapping(value = "/warninglist")
-    public String warningList() {
-        return "warning_list";
     }
 
 }

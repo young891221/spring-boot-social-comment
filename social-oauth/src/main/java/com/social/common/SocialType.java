@@ -16,4 +16,6 @@ public enum SocialType {
     public String getType() {
         return "ROLE_" + role.toUpperCase();
     }
+
+    public String getValue() { return role; }
 }

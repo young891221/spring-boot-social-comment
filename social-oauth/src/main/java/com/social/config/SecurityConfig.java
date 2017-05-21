@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         http.authorizeRequests()
                 .antMatchers("/comment/post", "/warning").authenticated()
-                .antMatchers("/", "/login/**", "/logout", "/twitter/complete", "/comment/**", "/resources/**").permitAll()
+                .antMatchers("/", "/login/**", "/logout", "/twitter/complete", "/comment/**", "/resources/**", "/console/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .headers().frameOptions().disable()
@@ -72,6 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CompositeFilter filter = new CompositeFilter();
         List<Filter> filters = new ArrayList<>();
         filters.add(ssoFilter(facebook(), "/login/facebook", SocialType.FACEBOOK));
+        filters.add(ssoFilter(twitter(), "/login/twitter", SocialType.TWITTER));
         filter.setFilters(filters);
         return filter;
     }
@@ -79,9 +80,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private Filter ssoFilter(ClientResources client, String path, SocialType socialType) {
         OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
         OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oAuth2ClientContext);
+        StringBuilder redirectUrl = new StringBuilder("/");
+        redirectUrl.append(socialType.getValue()).append("/complete");
+
         filter.setRestTemplate(template);
         filter.setTokenServices(new UserTokenService(client, socialType));
-        filter.setAuthenticationSuccessHandler((request, response, authentication) -> response.sendRedirect("/facebook/complete"));
+        filter.setAuthenticationSuccessHandler((request, response, authentication) -> response.sendRedirect(redirectUrl.toString()));
         filter.setAuthenticationFailureHandler((request, response, exception) -> response.sendRedirect("/"));
         return filter;
     }
@@ -92,4 +96,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new ClientResources();
     }
 
+    @Bean
+    @ConfigurationProperties("twitter")
+    public ClientResources twitter() {
+        return new ClientResources();
+    }
 }

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    @Autowired
+    //@Autowired
     private UserDao userDao;
 
     public void saveUser(String userName, String userPrincipal, SocialType socialType, String userProfileUrl, String userUrl) {

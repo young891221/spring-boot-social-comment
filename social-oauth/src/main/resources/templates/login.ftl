@@ -34,20 +34,10 @@
             $.ajax("/authentication", {
                 success: function (result) {
                     if (result) {
-                        $('#login_comment').hide();
-                        $('#write_comment').show();
-                        if ($parent !== -999) {
-                            $('#reply_login_box_' + $parent).hide();
-                            $('#reply_write_comment_' + $parent).show();
-                        }
+                        alert('인증 성공!');
                     }
                     else {
-                        $('#write_comment').show();
-                        $('#login_comment').hide();
-                        if ($parent !== -999) {
-                            $('#reply_write_comment_' + $parent).show();
-                            $('#reply_login_box_' + $parent).hide();
-                        }
+                        alert('인증 실패!');
                     }
                 }
             });
@@ -64,20 +54,10 @@
             $.ajax("/authentication", {
                 success: function (result) {
                     if (result) {
-                        $('#login_comment').hide();
-                        $('#write_comment').show();
-                        if ($parent !== -999) {
-                            $('#reply_login_box_' + $parent).hide();
-                            $('#reply_write_comment_' + $parent).show();
-                        }
+                        alert('인증 성공!');
                     }
                     else {
-                        $('#write_comment').show();
-                        $('#login_comment').hide();
-                        if ($parent !== -999) {
-                            $('#reply_write_comment_' + $parent).show();
-                            $('#reply_login_box_' + $parent).hide();
-                        }
+                        alert('인증 실패!');
                     }
                 }
             });
