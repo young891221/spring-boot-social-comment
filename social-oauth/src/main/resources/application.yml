@@ -16,10 +16,12 @@ facebook :
 
 twitter:
   client:
-    client-id: UkCGdoA6PLJvnjC2jDwQ86tar
-    client-secret: e3YwL5IdjAdMXJ9VrStykDwEsBquT8ecENpfDddm8kBS6eDvxw
+#    client-id: UkCGdoA6PLJvnjC2jDwQ86tar
+#    client-secret: e3YwL5IdjAdMXJ9VrStykDwEsBquT8ecENpfDddm8kBS6eDvxw
 #    request-token-url: https://api.twitter.com/oauth/request_token
 #    authenticate-token-url: https://api.twitter.com/oauth/authenticate
+    client-id: qynoCusuv0j4RsAEc4QEKHJBb
+    client-secret: Z5Qc2wWqLd78ZSIGZt49gElElOAcYMY8dIYnWhz96MKnicueDO
     access-token-uri: https://api.twitter.com/oauth/access_token
     user-authorization-uri: https://api.twitter.com/oauth/authorize
     token-name: oauth_token
