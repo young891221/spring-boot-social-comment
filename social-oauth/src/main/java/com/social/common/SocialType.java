@@ -5,7 +5,8 @@ package com.social.common;
  */
 public enum SocialType {
     FACEBOOK("facebook"),
-    TWITTER("twitter");
+    TWITTER("twitter"),
+    GOOGLE("google");
 
     private String role;
 

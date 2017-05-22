@@ -73,6 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         List<Filter> filters = new ArrayList<>();
         filters.add(ssoFilter(facebook(), "/login/facebook", SocialType.FACEBOOK));
         filters.add(ssoFilter(twitter(), "/login/twitter", SocialType.TWITTER));
+        filters.add(ssoFilter(google(), "/login/google", SocialType.GOOGLE));
         filter.setFilters(filters);
         return filter;
     }
@@ -99,6 +100,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @ConfigurationProperties("twitter")
     public ClientResources twitter() {
+        return new ClientResources();
+    }
+
+    @Bean
+    @ConfigurationProperties("google")
+    public ClientResources google() {
         return new ClientResources();
     }
 }

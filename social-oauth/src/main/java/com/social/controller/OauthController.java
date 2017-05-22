@@ -51,4 +51,10 @@ public class OauthController {
 
         return "complete";
     }
+
+    @GetMapping(value = "/google/complete")
+    public String googleComplete(HttpServletRequest request, HttpServletResponse response, OAuth2Authentication auth, Authentication authentication) {
+
+        return "complete";
+    }
 }

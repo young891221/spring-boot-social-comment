@@ -20,7 +20,6 @@ public class RestController {
         String userName = "";
 
         if (ret) {
-
             int size = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray().length;
 
             if (size < 2) {

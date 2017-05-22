@@ -9,7 +9,6 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-security')
 
 	compile('org.springframework.security.oauth:spring-security-oauth2')
-	compile('org.springframework.boot:spring-boot-starter-social-facebook')
 	compile('org.springframework.boot:spring-boot-starter-social-twitter')
 	compile('com.h2database:h2')
 

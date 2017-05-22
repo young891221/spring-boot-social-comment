@@ -3,16 +3,27 @@ server:
 
 facebook :
   client :
-    client-id : 465358593799840
-    client-secret: a37286e3dae00dcdce628f40dfe363f5
-    access-token-uri: https://graph.facebook.com/oauth/access_token
-    user-authorization-uri: https://www.facebook.com/dialog/oauth?display=popup
-    token-name: oauth_token
-    authentication-scheme: query
-    client-authentication-scheme: form
-    scope: publish_actions, public_profile, email
+    clientId : 465358593799840
+    clientSecret: a37286e3dae00dcdce628f40dfe363f5
+    accessTokenUri: https://graph.facebook.com/oauth/access_token
+    userAuthorizationUri: https://www.facebook.com/dialog/oauth?display=popup
+    tokenName: oauth_token
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+    scope: email
   resource:
-    user-info-uri: https://graph.facebook.com/me
+    userInfoUri: https://graph.facebook.com/me?fields=id,name,email,link
+
+google :
+  client :
+    clientId : 881218558153-ndr868i68rlofoo4l2gb488ksabi5q23.apps.googleusercontent.com
+    clientSecret: kq6zIo0myJotHK5_0irhtYnW
+    accessTokenUri: https://accounts.google.com/o/oauth2/token
+    userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
+    authenticationCode: authorization_code
+    scope: email, profile
+  resource:
+    userInfoUri: https://www.googleapis.com/oauth2/v2/userinfo
 
 twitter:
   client:
@@ -23,7 +34,8 @@ twitter:
     client-id: qynoCusuv0j4RsAEc4QEKHJBb
     client-secret: Z5Qc2wWqLd78ZSIGZt49gElElOAcYMY8dIYnWhz96MKnicueDO
     access-token-uri: https://api.twitter.com/oauth/access_token
-    user-authorization-uri: https://api.twitter.com/oauth/authorize
+#    user-authorization-uri: https://api.twitter.com/oauth/authorize
+    user-authorization-uri: https://api.twitter.com/oauth2/token
     token-name: oauth_token
     authentication-scheme: query
     client-authentication-scheme: form
