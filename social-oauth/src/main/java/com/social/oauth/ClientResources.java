@@ -1,4 +1,4 @@
-package com.social.common;
+package com.social.oauth;
 
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;

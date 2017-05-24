@@ -8,8 +8,10 @@
 	    <div id="layer2" class="pop-layer">
 	        <div class="pop-container">
 	            <div class="pop-conts" style="text-align: center;">
-	                <!--content //-->
-	                <span style="font-size: 15px; font-weight: bold; color: #1f326a">로그인할 소셜 계정을 선택하세요.</span><br>
+                    <input id="login_name" type="text" value="<#if name??>${name}<#else>로그인이 필요합니다.</#if>">
+		            <br>
+	                <span style="font-size: 15px; font-weight: bold; color: #1f326a">로그인할 소셜 계정을 선택하세요.</span>
+		            <br>
 	                <a href="javascript:;" id="facebook"><img src="/img/facebook.png" width="40px" height="40px"
 	                                                          data-parent="-999"></a>
 	                <a href="javascript:;" id="twitter"><img src="/img/twitter.png" width="40px" height="40px"
@@ -19,7 +21,9 @@
 	                <div class="btn-r">
 	                    <a href="javascript:;" class="btn-layerClose">닫기</a>
 	                </div>
-
+                    <div class="btn-r">
+                        <a href="/logout" class="btn-layerClose">로그아웃</a>
+                    </div>
 	            </div>
 	        </div>
 	    </div>
@@ -33,9 +37,10 @@
         window.open('/login/facebook', 'facebook', 'scrollbars=yes, resizable=yes, status=yes, location=yes, width=500, height=350, left=0, top=0');
         window['onSuccess'] = function () {
             $.ajax("/authentication", {
-                success: function (result) {
-                    if (result) {
+                success: function (data) {
+                    if (data.result) {
                         alert('인증 성공!');
+                        $('#login_name').val(data.name);
                     }
                     else {
                         alert('인증 실패!');

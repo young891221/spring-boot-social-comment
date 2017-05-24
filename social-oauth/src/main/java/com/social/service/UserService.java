@@ -1,12 +1,11 @@
 package com.social.service;
 
-import com.social.common.SocialType;
 import com.social.dao.UserDao;
+import com.social.domain.SocialType;
 import com.social.domain.User;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +22,7 @@ public class UserService {
 
     public void saveUser(String userName, String userPrincipal, SocialType socialType, String userProfileUrl, String userUrl) {
         User user = makeUser(userName, userPrincipal, socialType, userProfileUrl, userUrl);
-        user.setUserKey(makeHash(userName, userPrincipal, socialType));
-        logger.info("user hash code : {}", user.getUserKey());
+        //user.setUserKey(makeHash(userName, userPrincipal, socialType));
 
         userDao.saveUser(user);
     }

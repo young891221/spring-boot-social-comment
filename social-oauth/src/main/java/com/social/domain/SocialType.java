@@ -1,4 +1,4 @@
-package com.social.common;
+package com.social.domain;
 
 /**
  * Created by KimYJ on 2017-05-18.

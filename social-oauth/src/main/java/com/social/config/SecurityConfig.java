@@ -1,8 +1,8 @@
 package com.social.config;
 
-import com.social.common.ClientResources;
-import com.social.common.SocialType;
-import com.social.service.UserTokenService;
+import com.social.domain.SocialType;
+import com.social.oauth.ClientResources;
+import com.social.oauth.UserTokenService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,20 +44,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
-        http.authorizeRequests()
-                .antMatchers("/comment/post", "/warning").authenticated()
-                .antMatchers("/", "/login/**", "/logout", "/twitter/complete", "/comment/**", "/resources/**", "/console/**").permitAll()
-                .anyRequest().permitAll()
-                .and()
+        http
+            .authorizeRequests()
+                .antMatchers("/", "/login/**", "/twitter/complete", "/lib/**", "/img/**").permitAll()
+                .anyRequest().authenticated()
+            .and()
                 .headers().frameOptions().disable()
-                .and()
+            .and()
                 .exceptionHandling()
+                //.accessDeniedPage("/Access_Denied(403)")
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
-                .and()
-                .logout().disable()
+            .and()
+                .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .deleteCookies("JSESSIONID")
+                    .invalidateHttpSession(true)
+            .and()
                 .addFilterBefore(filter, CsrfFilter.class)
-                .csrf().disable()
-                .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
+                .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
+                .csrf().disable();
     }
 
     @Bean
@@ -87,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setRestTemplate(template);
         filter.setTokenServices(new UserTokenService(client, socialType));
         filter.setAuthenticationSuccessHandler((request, response, authentication) -> response.sendRedirect(redirectUrl.toString()));
-        filter.setAuthenticationFailureHandler((request, response, exception) -> response.sendRedirect("/"));
+        filter.setAuthenticationFailureHandler((request, response, exception) -> response.sendRedirect("/error"));
         return filter;
     }
 

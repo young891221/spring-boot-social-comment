@@ -1,8 +1,7 @@
-package com.social.service;
+package com.social.oauth;
 
 
-import com.social.common.ClientResources;
-import com.social.common.SocialType;
+import com.social.domain.SocialType;
 
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;

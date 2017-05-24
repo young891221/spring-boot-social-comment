@@ -1,6 +1,6 @@
 package com.social.controller;
 
-import com.social.common.SocialType;
+import com.social.domain.SocialType;
 import com.social.domain.User;
 import com.social.service.UserService;
 
@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -100,8 +99,8 @@ public class TwitterController {
         }
         User user = userService.getUser(userName, userPrincipal, SocialType.valueOf(socialType));
 
-        Cookie cookie = new Cookie("userIdx", user.getUserIdx()+"");
-        response.addCookie(cookie);
+        /*Cookie cookie = new Cookie("userIdx", user.getUserIdx()+"");
+        response.addCookie(cookie);*/
         return "complete";
     }
 
