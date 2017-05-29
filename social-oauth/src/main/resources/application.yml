@@ -20,24 +20,14 @@ google :
     clientSecret: kq6zIo0myJotHK5_0irhtYnW
     accessTokenUri: https://accounts.google.com/o/oauth2/token
     userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
-    authenticationCode: authorization_code
     scope: email, profile
   resource:
     userInfoUri: https://www.googleapis.com/oauth2/v2/userinfo
 
 twitter:
   client:
-#    client-id: UkCGdoA6PLJvnjC2jDwQ86tar
-#    client-secret: e3YwL5IdjAdMXJ9VrStykDwEsBquT8ecENpfDddm8kBS6eDvxw
-#    request-token-url: https://api.twitter.com/oauth/request_token
-#    authenticate-token-url: https://api.twitter.com/oauth/authenticate
-    client-id: qynoCusuv0j4RsAEc4QEKHJBb
-    client-secret: Z5Qc2wWqLd78ZSIGZt49gElElOAcYMY8dIYnWhz96MKnicueDO
-    access-token-uri: https://api.twitter.com/oauth/access_token
-#    user-authorization-uri: https://api.twitter.com/oauth/authorize
-    user-authorization-uri: https://api.twitter.com/oauth2/token
-    token-name: oauth_token
-    authentication-scheme: query
-    client-authentication-scheme: form
+    clientId: qynoCusuv0j4RsAEc4QEKHJBb
+    clientSecret: Z5Qc2wWqLd78ZSIGZt49gElElOAcYMY8dIYnWhz96MKnicueDO
+    userAuthorizationUri: https://api.twitter.com/oauth2/token
   resource:
-    user-info-uri: https://api.twitter.com/oauth2/token
+    userInfoUri: https://api.twitter.com/1.1/users/show.json

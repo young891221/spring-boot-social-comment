@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class OauthController {
 
-    @GetMapping(value = "/facebook/complete")
+    @GetMapping(value = "/facebook/complete") //pathvariable로 통일
     public String facebookComplete(HttpServletRequest request, HttpServletResponse response, OAuth2Authentication auth) {
         Map<String, String> map = (HashMap<String, String>) auth.getUserAuthentication().getDetails();
         String userName = map.get("name");

@@ -21,7 +21,7 @@ import org.springframework.social.oauth1.OAuthToken;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
@@ -37,21 +37,16 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class TwitterController {
     private final Logger logger = LoggerFactory.getLogger(TwitterController.class);
-    private final String twitterId = "UkCGdoA6PLJvnjC2jDwQ86tar";
-    private final String twitterSecret = "e3YwL5IdjAdMXJ9VrStykDwEsBquT8ecENpfDddm8kBS6eDvxw";
-    private final String twitCallbackUrl = "http://social.comment.zum.com/twitter/complete";
-    //private final String twitCallbackUrl = "http://localhost:8085/twitter/complete";
-    private final String hubUrl = "http://hub.zum.com/";
+    private final String twitterId = "qynoCusuv0j4RsAEc4QEKHJBb";
+    private final String twitterSecret = "Z5Qc2wWqLd78ZSIGZt49gElElOAcYMY8dIYnWhz96MKnicueDO";
+    private final String twitCallbackUrl = "http://localhost:8080/twitter/complete";
 
     @Autowired
     private UserService userService;
 
-    TwitterConnectionFactory twitterConnectionFactory;
-
     //@GetMapping(value = "/login/twitter")
     public void twitter(HttpServletRequest request, HttpServletResponse response) {
-        twitterConnectionFactory = new TwitterConnectionFactory(twitterId, twitterSecret);
-        OAuth1Operations operations = twitterConnectionFactory.getOAuthOperations();
+        OAuth1Operations operations = new TwitterConnectionFactory(twitterId, twitterSecret).getOAuthOperations();
         OAuth1Parameters params = new OAuth1Parameters();
 
         OAuthToken oAuthToken = operations.fetchRequestToken(twitCallbackUrl, null);
@@ -65,14 +60,8 @@ public class TwitterController {
     }
 
     //@GetMapping(value = "/twitter/complete")
-    public String twitterComplete(Model model, HttpServletRequest request, HttpServletResponse response, @RequestParam(name = "oauth_token") String oAuthToken, @RequestParam(name = "oauth_verifier") String oauthVerifier) {
-        if(SecurityContextHolder.getContext().getAuthentication() != null) {
-            String before = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[0].toString().split("_")[1];
-            if(before.equals("FACEBOOK")) {
-//                SecurityContextHolder.clearContext();
-                SecurityContextHolder.getContext().setAuthentication(null);
-            }
-        }
+    public String twitterComplete(HttpServletRequest request, @RequestParam(name = "oauth_token") String oAuthToken, @RequestParam(name = "oauth_verifier") String oauthVerifier) {
+        TwitterConnectionFactory twitterConnectionFactory = new TwitterConnectionFactory(twitterId, twitterSecret);
         OAuth1Operations operations = twitterConnectionFactory.getOAuthOperations();
         OAuthToken requestToken = (OAuthToken)request.getServletContext().getAttribute("token");
         OAuthToken accessToken = operations.exchangeForAccessToken(new AuthorizedRequestToken(requestToken, oauthVerifier), null);
@@ -99,8 +88,6 @@ public class TwitterController {
         }
         User user = userService.getUser(userName, userPrincipal, SocialType.valueOf(socialType));
 
-        /*Cookie cookie = new Cookie("userIdx", user.getUserIdx()+"");
-        response.addCookie(cookie);*/
         return "complete";
     }
 
