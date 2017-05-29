@@ -17,6 +17,8 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -62,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
             .and()
                 .addFilterBefore(filter, CsrfFilter.class)
-                .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(oauth2Filter(), BasicAuthenticationFilter.class)
                 .csrf().disable();
     }
 
@@ -74,17 +76,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return registration;
     }
 
-    private Filter ssoFilter() {
+    private Filter oauth2Filter() {
         CompositeFilter filter = new CompositeFilter();
         List<Filter> filters = new ArrayList<>();
-        filters.add(ssoFilter(facebook(), "/login/facebook", SocialType.FACEBOOK));
-        filters.add(ssoFilter(twitter(), "/login/twitter", SocialType.TWITTER));
-        filters.add(ssoFilter(google(), "/login/google", SocialType.GOOGLE));
+        filters.add(oauth2Filter(facebook(), "/login/facebook", SocialType.FACEBOOK));
+        filters.add(oauth2Filter(google(), "/login/google", SocialType.GOOGLE));
+        filters.add(clientCredentailsFilter(twitter(), oAuth2ProtectedResourceDetails(), "/login/twitter", SocialType.TWITTER));
         filter.setFilters(filters);
         return filter;
     }
 
-    private Filter ssoFilter(ClientResources client, String path, SocialType socialType) {
+    private Filter oauth2Filter(ClientResources client, String path, SocialType socialType) {
         OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
         OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oAuth2ClientContext);
         StringBuilder redirectUrl = new StringBuilder("/");
@@ -97,6 +99,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
+    private Filter clientCredentailsFilter(ClientResources client, OAuth2ProtectedResourceDetails details, String path, SocialType socialType) {
+        OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
+        OAuth2RestTemplate template = new OAuth2RestTemplate(details, oAuth2ClientContext);
+        StringBuilder redirectUrl = new StringBuilder("/");
+        redirectUrl.append(socialType.getValue()).append("/complete");
+
+        filter.setRestTemplate(template);
+        filter.setTokenServices(new UserTokenService(client, socialType));
+        filter.setAuthenticationSuccessHandler((request, response, authentication) -> response.sendRedirect(redirectUrl.toString()));
+        filter.setAuthenticationFailureHandler((request, response, exception) -> response.sendRedirect("/error"));
+        return filter;
+    }
+
+    public OAuth2ProtectedResourceDetails oAuth2ProtectedResourceDetails() {
+        ClientCredentialsResourceDetails resourceDetails = new ClientCredentialsResourceDetails();
+        resourceDetails.setAccessTokenUri("https://api.twitter.com/oauth2/token");
+        resourceDetails.setClientId("qynoCusuv0j4RsAEc4QEKHJBb");
+        resourceDetails.setClientSecret("Z5Qc2wWqLd78ZSIGZt49gElElOAcYMY8dIYnWhz96MKnicueDO");
+        /*resourceDetails.setAccessTokenUri(twitter().getResource().getTokenInfoUri());
+        resourceDetails.setClientId(twitter().getResource().getClientId());
+        resourceDetails.setClientSecret(twitter().getResource().getClientSecret());*/
+        return resourceDetails;
+    }
+
     @Bean
     @ConfigurationProperties("facebook")
     public ClientResources facebook() {
@@ -105,9 +131,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     @ConfigurationProperties("twitter")
-    public ClientResources twitter() {
-        return new ClientResources();
-    }
+    public ClientResources twitter() { return new ClientResources(); }
 
     @Bean
     @ConfigurationProperties("google")
