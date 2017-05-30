@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         http
             .authorizeRequests()
-                .antMatchers("/", "/login/**", "/twitter/complete", "/lib/**", "/img/**").permitAll()
+                .antMatchers("/", "/login/**",  "/lib/**", "/img/**", "/twitter/complete").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .headers().frameOptions().disable()
@@ -78,7 +78,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CompositeFilter filter = new CompositeFilter();
         List<Filter> filters = new ArrayList<>();
         filters.add(oauth2Filter(facebook(), "/login/facebook", SocialType.FACEBOOK));
-        //filters.add(oauth2Filter(twitter(), "/login/twitter", SocialType.TWITTER));
         filters.add(oauth2Filter(google(), "/login/google", SocialType.GOOGLE));
         filters.add(oauth2Filter(kakao(), "/login/kakao", SocialType.KAKAO));
         filter.setFilters(filters);
