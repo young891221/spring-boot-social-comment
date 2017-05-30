@@ -30,7 +30,7 @@ public class OauthController {
         return "complete";
     }
 
-    @GetMapping(value = "/twitter/complete")
+    //@GetMapping(value = "/twitter/complete")
     public String twitterComplete(HttpServletRequest request, HttpServletResponse response, OAuth2Authentication auth) {
 
         return "complete";
@@ -38,6 +38,12 @@ public class OauthController {
 
     @GetMapping(value = "/google/complete")
     public String googleComplete(HttpServletRequest request, HttpServletResponse response, OAuth2Authentication auth) {
+
+        return "complete";
+    }
+
+    @GetMapping(value = "/kakao/complete")
+    public String kakaoComplete(HttpServletRequest request, HttpServletResponse response, OAuth2Authentication auth) {
 
         return "complete";
     }

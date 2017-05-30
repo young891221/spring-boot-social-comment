@@ -12,12 +12,10 @@
 		            <br>
 	                <span style="font-size: 15px; font-weight: bold; color: #1f326a">로그인할 소셜 계정을 선택하세요.</span>
 		            <br>
-	                <a href="javascript:;" id="facebook"><img src="/img/facebook.png" width="40px" height="40px"
-	                                                          data-parent="-999"></a>
-	                <a href="javascript:;" id="twitter"><img src="/img/twitter.png" width="40px" height="40px"
-	                                                         data-parent="-999"> </a>
-                    <a href="javascript:;" id="google"><img src="" width="40px" height="40px"
-                                                             data-parent="-999"> </a>
+	                <a href="javascript:;" id="facebook"><img src="/img/facebook.png" width="40px" height="40px" data-parent="-999"></a>
+	                <a href="javascript:;" id="twitter"><img src="/img/twitter.png" width="40px" height="40px" data-parent="-999"></a>
+                    <a href="javascript:;" id="google"><img src="/img/google.png" width="40px" height="40px" data-parent="-999"></a>
+                    <a href="javascript:;" id="kakao"><img src="/img/kakao.png" width="40px" height="40px" data-parent="-999"></a>
 	                <div class="btn-r">
 	                    <a href="javascript:;" class="btn-layerClose">닫기</a>
 	                </div>
@@ -33,7 +31,6 @@
 <script>
     $('#facebook').click(function () {
         var $parent = $(this).data('parent');
-
         window.open('/login/facebook', 'facebook', 'scrollbars=yes, resizable=yes, status=yes, location=yes, width=500, height=350, left=0, top=0');
         window['onSuccess'] = function () {
             $.ajax("/authentication", {
@@ -61,6 +58,7 @@
                 success: function (result) {
                     if (result) {
                         alert('인증 성공!');
+                        $('#login_name').val(data.name);
                     }
                     else {
                         alert('인증 실패!');
@@ -81,6 +79,28 @@
                 success: function (result) {
                     if (result) {
                         alert('인증 성공!');
+                        $('#login_name').val(data.name);
+                    }
+                    else {
+                        alert('인증 실패!');
+                    }
+                }
+            });
+            window['onSuccess'] = null;
+        };
+        $(this).data('parent', -999);
+    });
+
+    $('#kakao').click(function () {
+        $('.btn-layerClose').click();
+        var $parent = $(this).data('parent');
+        window.open('/login/kakao', 'kakao', 'scrollbars=yes, resizable=yes, status=yes, location=yes, width=500, height=350, left=0, top=0');
+        window['onSuccess'] = function () {
+            $.ajax("/authentication", {
+                success: function (result) {
+                    if (result) {
+                        alert('인증 성공!');
+                        $('#login_name').val(data.name);
                     }
                     else {
                         alert('인증 실패!');

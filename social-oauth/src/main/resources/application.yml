@@ -31,3 +31,11 @@ twitter:
     userAuthorizationUri: https://api.twitter.com/oauth2/token
   resource:
     userInfoUri: https://api.twitter.com/1.1/users/show.json
+
+kakao :
+  client :
+    clientId : 1b8ff676ae01724ed77437f98d399543
+    accessTokenUri: https://kauth.kakao.com/oauth/token
+    userAuthorizationUri: https://kauth.kakao.com/oauth/authorize
+  resource:
+    userInfoUri: https://kapi.kakao.com/v1/user/me

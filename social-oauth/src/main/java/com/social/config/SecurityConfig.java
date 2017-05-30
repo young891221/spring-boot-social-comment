@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
             .and()
                 .addFilterBefore(filter, CsrfFilter.class)
-                .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(oauth2Filter(), BasicAuthenticationFilter.class)
                 .csrf().disable();
     }
 
@@ -74,17 +74,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return registration;
     }
 
-    private Filter ssoFilter() {
+    private Filter oauth2Filter() {
         CompositeFilter filter = new CompositeFilter();
         List<Filter> filters = new ArrayList<>();
-        filters.add(ssoFilter(facebook(), "/login/facebook", SocialType.FACEBOOK));
-        filters.add(ssoFilter(twitter(), "/login/twitter", SocialType.TWITTER));
-        filters.add(ssoFilter(google(), "/login/google", SocialType.GOOGLE));
+        filters.add(oauth2Filter(facebook(), "/login/facebook", SocialType.FACEBOOK));
+        //filters.add(oauth2Filter(twitter(), "/login/twitter", SocialType.TWITTER));
+        filters.add(oauth2Filter(google(), "/login/google", SocialType.GOOGLE));
+        filters.add(oauth2Filter(kakao(), "/login/kakao", SocialType.KAKAO));
         filter.setFilters(filters);
         return filter;
     }
 
-    private Filter ssoFilter(ClientResources client, String path, SocialType socialType) {
+    private Filter oauth2Filter(ClientResources client, String path, SocialType socialType) {
         OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
         OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oAuth2ClientContext);
         StringBuilder redirectUrl = new StringBuilder("/");
@@ -112,6 +113,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @ConfigurationProperties("google")
     public ClientResources google() {
+        return new ClientResources();
+    }
+
+    @Bean
+    @ConfigurationProperties("kakao")
+    public ClientResources kakao() {
         return new ClientResources();
     }
 }

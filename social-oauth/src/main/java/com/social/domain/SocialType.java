@@ -6,7 +6,8 @@ package com.social.domain;
 public enum SocialType {
     FACEBOOK("facebook"),
     TWITTER("twitter"),
-    GOOGLE("google");
+    GOOGLE("google"),
+    KAKAO("kakao");
 
     private String role;
 
