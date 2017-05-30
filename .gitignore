@@ -3,8 +3,6 @@
 !gradle/wrapper/gradle-wrapper.jar
 social-oauth/build
 social-comment/build
-#social-oauth/src/main/resources/application.yml
-social-oauth/src/main/resources/datasource.properties
 
 ### STS ###
 .apt_generated
