@@ -26,7 +26,7 @@ public class UserTokenService extends UserInfoTokenServices {
         private String socialType;
 
         public OAuth2AuthoritiesExtractor(SocialType socialType) {
-            this.socialType = socialType.getType();
+            this.socialType = socialType.getRoleType();
         }
 
         @Override

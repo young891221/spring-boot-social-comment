@@ -71,7 +71,7 @@ public class TwitterController {
         map.put("principal", userPrincipal);
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(SocialType.TWITTER.getType()));
+        authorities.add(new SimpleGrantedAuthority(SocialType.TWITTER.getRoleType()));
 
         OAuth2Request oAuth2Request = new OAuth2Request(null, userPrincipal, null, true, null,
                 null, null, null, null);
