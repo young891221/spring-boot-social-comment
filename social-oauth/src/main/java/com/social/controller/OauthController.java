@@ -1,5 +1,10 @@
 package com.social.controller;
 
+import com.social.domain.SocialType;
+import com.social.domain.User;
+import com.social.service.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,23 +18,36 @@ import java.util.Map;
 @Controller
 public class OauthController {
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping(value = "/facebook/complete")
     public String facebookComplete(OAuth2Authentication auth) {
         Map<String, String> map = (HashMap<String, String>) auth.getUserAuthentication().getDetails();
-        String userPrincipal = map.get("id");
-        String userName = map.get("name");
-        String userEmail = map.get("email");
-        String userImage = "http://graph.facebook.com/" + userPrincipal + "/picture?type=square";
+        if(userService.isExistUser(map.get("id"))) {
+            userService.saveUser(User.builder()
+                    .userPrincipal(map.get("id"))
+                    .userName(map.get("name"))
+                    .userEmail(map.get("email"))
+                    .userImage("http://graph.facebook.com/" + map.get("id") + "/picture?type=square")
+                    .socialType(SocialType.FACEBOOK)
+                    .build());
+        }
         return "complete";
     }
 
     @GetMapping(value = "/google/complete")
     public String googleComplete(OAuth2Authentication auth) {
         Map<String, String> map = (HashMap<String, String>) auth.getUserAuthentication().getDetails();
-        String userPrincipal = map.get("id");
-        String userName = map.get("name");
-        String userEmail = map.get("email");
-        String userImage = map.get("picture");
+        if(userService.isExistUser(map.get("id"))) {
+            userService.saveUser(User.builder()
+                    .userPrincipal(map.get("id"))
+                    .userName(map.get("name"))
+                    .userEmail(map.get("email"))
+                    .userImage(map.get("picture"))
+                    .socialType(SocialType.GOOGLE)
+                    .build());
+        }
         return "complete";
     }
 
@@ -37,10 +55,15 @@ public class OauthController {
     public String kakaoComplete(OAuth2Authentication auth) {
         Map<String, String> map = (HashMap<String, String>) auth.getUserAuthentication().getDetails();
         HashMap<String, String> propertyMap = (HashMap<String, String>)(Object) map.get("properties");
-        String userPrincipal = String.valueOf(map.get("id"));
-        String userName = propertyMap.get("nickname");
-        String userEmail = map.get("kaccount_email");
-        String userImage = propertyMap.get("thumbnail_image");
+        if(userService.isExistUser(String.valueOf(map.get("id")))) {
+            userService.saveUser(User.builder()
+                    .userPrincipal(String.valueOf(map.get("id")))
+                    .userName(propertyMap.get("nickname"))
+                    .userEmail(map.get("kaccount_email"))
+                    .userImage(propertyMap.get("thumbnail_image"))
+                    .socialType(SocialType.KAKAO)
+                    .build());
+        }
         return "complete";
     }
 }

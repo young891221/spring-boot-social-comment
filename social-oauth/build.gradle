@@ -1,6 +1,9 @@
 bootRepackage {
 	enabled = false
 }
+
+ext['hibernate.version'] = '5.2.8.Final'
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
@@ -13,7 +16,6 @@ dependencies {
 	compile('com.h2database:h2')
 
 	runtime('org.springframework.boot:spring-boot-devtools')
-	runtime('mysql:mysql-connector-java')
 
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')

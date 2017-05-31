@@ -1,5 +1,7 @@
 package com.social.domain;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,8 +9,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
+import lombok.Builder;
 import lombok.Getter;
 
 /**
@@ -16,7 +20,9 @@ import lombok.Getter;
  */
 @Getter
 @Entity
-@Table(name = "user")
+@Table(name = "user",
+        indexes = {@Index(name = "ix_user_principal",  columnList="user_principal", unique = true),
+                    @Index(name = "ix_user_email",  columnList="user_email")})
 public class User {
 
     @Id
@@ -24,29 +30,35 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userIdx;
 
-    @Column(name="user_principal")
+    @Column(name = "user_principal")
     private String userPrincipal;
 
-    @Column(name="user_name")
+    @Column(name = "user_name")
     private String userName;
 
-    @Column(name="user_email")
-    private int userEmail;
+    @Column(name = "user_email")
+    private String userEmail;
 
     @Column(name = "user_Image")
     private String userImage;
 
-    @Column(name="social_type")
+    @Column(name = "social_type")
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
+    @Column(name = "create_date")
+    private LocalDateTime createDate;
+
     public User() {}
 
-    @Override
-    public int hashCode() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(userName).append(userPrincipal).append(socialType);
-        return builder.hashCode();
+    @Builder
+    public User(String userPrincipal, String userName, String userEmail, String userImage, SocialType socialType) {
+        this.userPrincipal = userPrincipal;
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.userImage = userImage;
+        this.socialType = socialType;
+        this.createDate = LocalDateTime.now();
     }
 
 }
