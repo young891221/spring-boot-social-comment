@@ -1,5 +1,6 @@
 package com.social.controller;
 
+import com.social.annotation.SaveSocialUser;
 import com.social.domain.SocialType;
 import com.social.domain.User;
 import com.social.service.UserService;
@@ -68,16 +69,7 @@ public class TwitterController {
         Connection<Twitter> connection = getAccessTokenToConnection(request, oauthVerifier);
         Map<String, String> map = getUserInfoMap(connection);
         setAuthentication(map);
-
-        if(userService.isExistUser(map.get("id"))) {
-            userService.saveUser(User.builder()
-                    .userPrincipal(map.get("id"))
-                    .userName(map.get("name"))
-                    .userEmail(connection.fetchUserProfile().getEmail())
-                    .userImage(connection.getImageUrl())
-                    .socialType(SocialType.TWITTER)
-                    .build());
-        }
+        saveUserIfNotExist(connection, map);
 
         return "complete";
     }
@@ -108,6 +100,18 @@ public class TwitterController {
                 null, null, null, null);
         Authentication authentication = new OAuth2Authentication(oAuth2Request, authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    private void saveUserIfNotExist(Connection<Twitter> connection, Map<String, String> map) {
+        if(userService.isExistUser(map.get("id"))) {
+            userService.saveUser(User.builder()
+                    .userPrincipal(map.get("id"))
+                    .userName(map.get("name"))
+                    .userEmail(connection.fetchUserProfile().getEmail())
+                    .userImage(connection.getImageUrl())
+                    .socialType(SocialType.TWITTER)
+                    .build());
+        }
     }
 
 }

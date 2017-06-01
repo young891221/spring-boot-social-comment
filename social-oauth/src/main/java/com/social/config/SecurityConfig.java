@@ -52,7 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
             .and()
                 .exceptionHandling()
-                //.accessDeniedPage("/Access_Denied(403)")
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
             .and()
                 .logout()

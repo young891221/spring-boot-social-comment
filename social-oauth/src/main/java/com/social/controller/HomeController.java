@@ -1,5 +1,7 @@
 package com.social.controller;
 
+import com.social.annotation.SaveSocialUser;
+
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +21,20 @@ public class HomeController {
     public String root(OAuth2Authentication auth, Model model) {
         if(auth != null && auth.isAuthenticated()) {
             Map<String, String> map = (HashMap<String, String>) auth.getUserAuthentication().getDetails();
-            model.addAttribute("name", map.get("name"));
+            if(map.get("name") == null) {
+                HashMap<String, String> propertyMap = (HashMap<String, String>)(Object) map.get("properties");
+                model.addAttribute("name", propertyMap.get("nickname"));
+            } else {
+                model.addAttribute("name", map.get("name"));
+            }
         }
         return "login";
+    }
+
+    @SaveSocialUser
+    @GetMapping(value = "/{facebook|google|kakao}/complete")
+    public String facebookComplete(OAuth2Authentication auth) {
+        return "complete";
     }
 
     @GetMapping(value = "/error")

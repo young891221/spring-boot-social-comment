@@ -1,29 +1,49 @@
-package com.social.controller;
+package com.social.aop;
 
 import com.social.domain.SocialType;
 import com.social.domain.User;
 import com.social.service.UserService;
 
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by KimYJ on 2017-05-18.
+ * Created by KimYJ on 2017-06-01.
  */
-@Controller
-public class OauthController {
+@Component
+@Aspect
+public class UserAspect {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/facebook/complete")
-    public String facebookComplete(OAuth2Authentication auth) {
-        Map<String, String> map = (HashMap<String, String>) auth.getUserAuthentication().getDetails();
+    @Around("@annotation(com.social.annotation.SaveSocialUser)")
+    public Object checkAndSaveUser(ProceedingJoinPoint joinPoint) throws Throwable {
+        Object[] args = joinPoint.getArgs();
+        for (int i = 0; i < args.length; i++) {
+            if (args[i] instanceof OAuth2Authentication) {
+                OAuth2Authentication authentication = (OAuth2Authentication) args[i];
+                Map<String, String> map = (HashMap<String, String>) authentication.getUserAuthentication().getDetails();
+                checkSocialType(String.valueOf(authentication.getAuthorities().toArray()[0]), map);
+            }
+        }
+        return joinPoint.proceed();
+    }
+
+    private void checkSocialType(String authority, Map<String, String> map) {
+        if(SocialType.FACEBOOK.getRoleType().equals(authority)) saveFacebook(map);
+        else if(SocialType.GOOGLE.getRoleType().equals(authority)) saveGoogle(map);
+        else if(SocialType.KAKAO.getRoleType().equals(authority)) saveKakao(map);
+    }
+
+    private void saveFacebook(Map<String, String> map) {
         if(userService.isExistUser(map.get("id"))) {
             userService.saveUser(User.builder()
                     .userPrincipal(map.get("id"))
@@ -33,12 +53,9 @@ public class OauthController {
                     .socialType(SocialType.FACEBOOK)
                     .build());
         }
-        return "complete";
     }
 
-    @GetMapping(value = "/google/complete")
-    public String googleComplete(OAuth2Authentication auth) {
-        Map<String, String> map = (HashMap<String, String>) auth.getUserAuthentication().getDetails();
+    private void saveGoogle(Map<String, String> map) {
         if(userService.isExistUser(map.get("id"))) {
             userService.saveUser(User.builder()
                     .userPrincipal(map.get("id"))
@@ -48,12 +65,9 @@ public class OauthController {
                     .socialType(SocialType.GOOGLE)
                     .build());
         }
-        return "complete";
     }
 
-    @GetMapping(value = "/kakao/complete")
-    public String kakaoComplete(OAuth2Authentication auth) {
-        Map<String, String> map = (HashMap<String, String>) auth.getUserAuthentication().getDetails();
+    private void saveKakao(Map<String, String> map) {
         HashMap<String, String> propertyMap = (HashMap<String, String>)(Object) map.get("properties");
         if(userService.isExistUser(String.valueOf(map.get("id")))) {
             userService.saveUser(User.builder()
@@ -64,6 +78,6 @@ public class OauthController {
                     .socialType(SocialType.KAKAO)
                     .build());
         }
-        return "complete";
     }
 }
+
