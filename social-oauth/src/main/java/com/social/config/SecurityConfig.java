@@ -104,12 +104,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @ConfigurationProperties("twitter")
-    public ClientResources twitter() {
-        return new ClientResources();
-    }
-
-    @Bean
     @ConfigurationProperties("google")
     public ClientResources google() {
         return new ClientResources();

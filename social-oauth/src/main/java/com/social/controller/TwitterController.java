@@ -1,10 +1,12 @@
 package com.social.controller;
 
 import com.social.domain.SocialType;
+import com.social.domain.User;
+import com.social.service.UserService;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,11 +26,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -36,15 +38,25 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 public class TwitterController {
-    private final Logger logger = LoggerFactory.getLogger(TwitterController.class);
-    private final String twitterId = "qynoCusuv0j4RsAEc4QEKHJBb";
-    private final String twitterSecret = "Z5Qc2wWqLd78ZSIGZt49gElElOAcYMY8dIYnWhz96MKnicueDO";
-    private final String twitCallbackUrl = "http://localhost:8080/twitter/complete";
+    private static String clientId, clientSecret, callbackUri;
+
+    @Autowired
+    private Environment env;
+
+    @Autowired
+    private UserService userService;
+
+    @PostConstruct
+    private void init() {
+        clientId = env.getProperty("twitter.clientId");
+        clientSecret = env.getProperty("twitter.clientSecret");
+        callbackUri = env.getProperty("twitter.callbackUri");
+    }
 
     @GetMapping(value = "/login/twitter")
     public void twitter(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        OAuth1Operations operations = new TwitterConnectionFactory(twitterId, twitterSecret).getOAuthOperations();
-        OAuthToken oAuthToken = operations.fetchRequestToken(twitCallbackUrl, null);
+        OAuth1Operations operations = new TwitterConnectionFactory(clientId, clientSecret).getOAuthOperations();
+        OAuthToken oAuthToken = operations.fetchRequestToken(callbackUri, null);
         String authenticationUrl = operations.buildAuthenticateUrl(oAuthToken.getValue(), new OAuth1Parameters());
 
         request.getServletContext().setAttribute("token", oAuthToken);
@@ -53,34 +65,49 @@ public class TwitterController {
 
     @GetMapping(value = "/twitter/complete")
     public String twitterComplete(HttpServletRequest request, @RequestParam(name = "oauth_token") String oauthToken, @RequestParam(name = "oauth_verifier") String oauthVerifier) {
-        TwitterConnectionFactory twitterConnectionFactory = new TwitterConnectionFactory(twitterId, twitterSecret);
+        Connection<Twitter> connection = getAccessTokenToConnection(request, oauthVerifier);
+        Map<String, String> map = getUserInfoMap(connection);
+        setAuthentication(map);
+
+        if(userService.isExistUser(map.get("id"))) {
+            userService.saveUser(User.builder()
+                    .userPrincipal(map.get("id"))
+                    .userName(map.get("name"))
+                    .userEmail(connection.fetchUserProfile().getEmail())
+                    .userImage(connection.getImageUrl())
+                    .socialType(SocialType.TWITTER)
+                    .build());
+        }
+
+        return "complete";
+    }
+
+    private Connection<Twitter> getAccessTokenToConnection(HttpServletRequest request, @RequestParam(name = "oauth_verifier") String oauthVerifier) {
+        TwitterConnectionFactory twitterConnectionFactory = new TwitterConnectionFactory(clientId, clientSecret);
         OAuth1Operations operations = twitterConnectionFactory.getOAuthOperations();
         OAuthToken requestToken = (OAuthToken)request.getServletContext().getAttribute("token");
         request.getServletContext().removeAttribute("token");
         OAuthToken accessToken = operations.exchangeForAccessToken(new AuthorizedRequestToken(requestToken, oauthVerifier), null);
-        Connection<Twitter> connection = twitterConnectionFactory.createConnection(accessToken);
+        return twitterConnectionFactory.createConnection(accessToken);
+    }
 
-        request.getServletContext().setAttribute("connection", connection);
-
+    private Map<String, String> getUserInfoMap(Connection<Twitter> connection) {
         Map<String, String> map = new HashMap<>();
         String userPrincipal = connection.getKey().getProviderUserId();
         String userName = connection.getDisplayName();
-        String userEmail = connection.fetchUserProfile().getEmail();
-        String userImage = connection.getImageUrl();
         map.put("name", userName);
-        map.put("principal", userPrincipal);
+        map.put("id", userPrincipal);
+        return map;
+    }
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(SocialType.TWITTER.getRoleType()));
-
-        OAuth2Request oAuth2Request = new OAuth2Request(null, userPrincipal, null, true, null,
-                null, null, null, null);
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userPrincipal, "N/A", authorities);
+    private void setAuthentication(Map<String, String> map) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(map.get("id"),
+                "N/A", Arrays.asList(new GrantedAuthority[]{new SimpleGrantedAuthority(SocialType.TWITTER.getRoleType())}));
         authenticationToken.setDetails(map);
+        OAuth2Request oAuth2Request = new OAuth2Request(null, map.get("id"), null, true, null,
+                null, null, null, null);
         Authentication authentication = new OAuth2Authentication(oAuth2Request, authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        return "complete";
     }
 
 }

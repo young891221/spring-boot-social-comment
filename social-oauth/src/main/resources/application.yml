@@ -24,14 +24,6 @@ google :
   resource:
     userInfoUri: https://www.googleapis.com/oauth2/v2/userinfo
 
-twitter:
-  client:
-    clientId: qynoCusuv0j4RsAEc4QEKHJBb
-    clientSecret: Z5Qc2wWqLd78ZSIGZt49gElElOAcYMY8dIYnWhz96MKnicueDO
-    userAuthorizationUri: https://api.twitter.com/oauth2/token
-  resource:
-    userInfoUri: https://api.twitter.com/1.1/users/show.json
-
 kakao :
   client :
     clientId : 1b8ff676ae01724ed77437f98d399543
@@ -39,3 +31,8 @@ kakao :
     userAuthorizationUri: https://kauth.kakao.com/oauth/authorize
   resource:
     userInfoUri: https://kapi.kakao.com/v1/user/me
+
+twitter:
+  clientId: qynoCusuv0j4RsAEc4QEKHJBb
+  clientSecret: Z5Qc2wWqLd78ZSIGZt49gElElOAcYMY8dIYnWhz96MKnicueDO
+  callbackUri: http://localhost:8080/twitter/complete
