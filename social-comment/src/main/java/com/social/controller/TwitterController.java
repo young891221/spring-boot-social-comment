@@ -1,6 +1,5 @@
 package com.social.controller;
 
-import com.social.annotation.SaveSocialUser;
 import com.social.domain.SocialType;
 import com.social.domain.User;
 import com.social.service.UserService;

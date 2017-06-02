@@ -40,10 +40,10 @@ subprojects {
 	}
 }
 
-project(':social-oauth')
+project(':social-core')
 
 project(':social-comment') {
 	dependencies {
-		compile project(':social-oauth')
+		compile project(':social-core')
 	}
 }
