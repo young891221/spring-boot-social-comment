@@ -3,8 +3,8 @@ server:
 
 facebook :
   client :
-    clientId : 465358593799840
-    clientSecret: a37286e3dae00dcdce628f40dfe363f5
+    clientId :
+    clientSecret:
     accessTokenUri: https://graph.facebook.com/oauth/access_token
     userAuthorizationUri: https://www.facebook.com/dialog/oauth?display=popup
     tokenName: oauth_token
@@ -16,8 +16,8 @@ facebook :
 
 google :
   client :
-    clientId : 881218558153-ndr868i68rlofoo4l2gb488ksabi5q23.apps.googleusercontent.com
-    clientSecret: kq6zIo0myJotHK5_0irhtYnW
+    clientId :
+    clientSecret:
     accessTokenUri: https://accounts.google.com/o/oauth2/token
     userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
     scope: email, profile
@@ -26,13 +26,13 @@ google :
 
 kakao :
   client :
-    clientId : 1b8ff676ae01724ed77437f98d399543
+    clientId :
     accessTokenUri: https://kauth.kakao.com/oauth/token
     userAuthorizationUri: https://kauth.kakao.com/oauth/authorize
   resource:
     userInfoUri: https://kapi.kakao.com/v1/user/me
 
 twitter:
-  clientId: qynoCusuv0j4RsAEc4QEKHJBb
-  clientSecret: Z5Qc2wWqLd78ZSIGZt49gElElOAcYMY8dIYnWhz96MKnicueDO
+  clientId:
+  clientSecret:
   callbackUri: http://localhost:8080/twitter/complete
