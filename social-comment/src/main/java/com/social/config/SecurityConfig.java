@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.CompositeFilter;
 
@@ -35,6 +36,7 @@ import javax.servlet.Filter;
 @Configuration
 @EnableWebSecurity
 @EnableOAuth2Client
+@EnableRedisHttpSession
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Qualifier("oauth2ClientContext")
@@ -57,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/")
-                    .deleteCookies("JSESSIONID")
+                    .deleteCookies("SESSION")
                     .invalidateHttpSession(true)
             .and()
                 .addFilterBefore(filter, CsrfFilter.class)

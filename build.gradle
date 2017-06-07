@@ -58,12 +58,14 @@ project(':social-comment') {
 	dependencies {
 		compile project(':social-core')
 		compile('org.springframework.boot:spring-boot-starter-web')
-		compile('org.springframework.boot:spring-boot-starter-data-redis')
 		compile('org.springframework.boot:spring-boot-starter-freemarker')
 		compile('org.springframework.boot:spring-boot-starter-security')
 
 		compile('org.springframework.security.oauth:spring-security-oauth2')
 		compile('org.springframework.boot:spring-boot-starter-social-twitter')
+
+		compile('org.springframework.session:spring-session-data-redis')
+		compile("com.github.kstyrc:embedded-redis:0.6")
 		compile('com.h2database:h2')
 
 		runtime('org.springframework.boot:spring-boot-devtools')
