@@ -28,7 +28,7 @@ import javax.servlet.http.HttpSession;
 public class UserAspect {
 
     @Around("execution(* *(.., @com.social.annotation.SocialUser (*), ..))")
-    public Object checkAndSaveUser(ProceedingJoinPoint  joinPoint) throws Throwable {
+    public Object convertUser(ProceedingJoinPoint  joinPoint) throws Throwable {
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
         User user = (User) session.getAttribute("user");
         if(user == null) {
