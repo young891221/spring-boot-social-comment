@@ -1,6 +1,6 @@
 package com.social.config;
 
-import com.social.domain.SocialType;
+import com.social.domain.enums.SocialType;
 import com.social.oauth.ClientResources;
 import com.social.oauth.UserTokenService;
 

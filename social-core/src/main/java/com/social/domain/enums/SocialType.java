@@ -1,4 +1,4 @@
-package com.social.domain;
+package com.social.domain.enums;
 
 /**
  * Created by KimYJ on 2017-05-18.

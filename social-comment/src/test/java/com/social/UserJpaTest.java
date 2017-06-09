@@ -1,6 +1,6 @@
 package com.social;
 
-import com.social.domain.SocialType;
+import com.social.domain.enums.SocialType;
 import com.social.domain.User;
 import com.social.repository.UserRepository;
 

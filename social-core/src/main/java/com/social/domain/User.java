@@ -1,5 +1,7 @@
 package com.social.domain;
 
+import com.social.domain.enums.SocialType;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 

@@ -1,6 +1,8 @@
 package com.social.domain;
 
 
+import com.social.domain.enums.Status;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
