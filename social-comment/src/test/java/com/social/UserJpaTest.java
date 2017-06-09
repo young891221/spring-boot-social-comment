@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.Matchers.is;
@@ -18,9 +18,11 @@ import static org.junit.Assert.assertThat;
  * Created by KimYJ on 2017-05-31.
  */
 @RunWith(SpringRunner.class)
-@DataJpaTest
-public class JpaTest {
+//@DataJpaTest(useDefaultFilters = false, excludeFilters = @ComponentScan.Filter(RedisHttpSessionConfiguration.class))
+@SpringBootTest(classes = SocialApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class UserJpaTest {
     private static final String TEST_PRINCIPAL = "1355321987876904";
+
     @Autowired
     private UserRepository userRepository;
 

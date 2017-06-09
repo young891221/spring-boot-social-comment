@@ -1,5 +1,6 @@
 package com.social.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -14,16 +15,19 @@ import javax.persistence.Table;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Created by KimYJ on 2017-05-23.
  */
 @Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "user",
         indexes = {@Index(name = "ix_user_principal",  columnList="user_principal", unique = true),
                     @Index(name = "ix_user_email",  columnList="user_email")})
-public class User {
+public class User implements Serializable{
+    private static final long serialVersionUID = -1790606364187219092L;
 
     @Id
     @Column(name = "user_idx")
@@ -48,8 +52,6 @@ public class User {
 
     @Column(name = "create_date")
     private LocalDateTime createDate;
-
-    public User() {}
 
     @Builder
     public User(String userPrincipal, String userName, String userEmail, String userImage, SocialType socialType) {

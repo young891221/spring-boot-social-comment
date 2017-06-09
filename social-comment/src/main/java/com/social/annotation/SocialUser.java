@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Created by KimYJ on 2017-06-01.
  */
-@Target(ElementType.METHOD)
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SaveSocialUser {
+public @interface SocialUser {
 }

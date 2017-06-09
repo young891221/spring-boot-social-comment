@@ -102,7 +102,7 @@ public class TwitterController {
     }
 
     private void saveUserIfNotExist(Connection<Twitter> connection, Map<String, String> map) {
-        if(userService.isExistUser(map.get("id"))) {
+        if(userService.isNotExistUser(map.get("id"))) {
             userService.saveUser(User.builder()
                     .userPrincipal(map.get("id"))
                     .userName(map.get("name"))

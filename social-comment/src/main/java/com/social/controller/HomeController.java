@@ -1,7 +1,5 @@
 package com.social.controller;
 
-import com.social.annotation.SaveSocialUser;
-
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,12 +27,6 @@ public class HomeController {
             }
         }
         return "login";
-    }
-
-    @SaveSocialUser
-    @GetMapping(value = "/{facebook|google|kakao}/complete")
-    public String facebookComplete(OAuth2Authentication auth) {
-        return "complete";
     }
 
     @GetMapping(value = "/error")
