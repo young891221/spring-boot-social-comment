@@ -1,6 +1,9 @@
 server:
   port: 8080
 
+datasource:
+  url: jdbc:h2:mem:testdb
+
 spring:
   redis:
     host: localhost

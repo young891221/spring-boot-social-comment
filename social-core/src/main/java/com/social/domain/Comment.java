@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -50,9 +51,6 @@ public class Comment {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column(name = "warning_cnt")
-    private long warningCnt;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -63,5 +61,12 @@ public class Comment {
     @JoinColumn(name="user_idx")
     private User user;
 
-
+    @Builder
+    public Comment(String content, String clientIp, long articleIdx, long parentIdx, User user) {
+        this.content = content;
+        this.clientIp = clientIp;
+        this.articleIdx = articleIdx;
+        this.parentIdx = parentIdx;
+        this.user = user;
+    }
 }

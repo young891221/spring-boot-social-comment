@@ -6,10 +6,11 @@ import com.social.repository.ArticleRepository;
 import com.social.repository.CommentRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -37,11 +38,12 @@ public class CommentService {
                 .build());
     }
 
-    public void createComment() {
-
+    public Comment createComment(Comment comment) {
+        return commentRepository.save(comment);
     }
 
-    public List<Comment> getComments() {
-        return null;
+    public Page<Comment> getComments(Pageable pageable) {
+        Page<Comment> page = commentRepository.findAll(pageable);
+        return new PageImpl<>(page.getContent(), pageable, page.getTotalElements());
     }
 }
