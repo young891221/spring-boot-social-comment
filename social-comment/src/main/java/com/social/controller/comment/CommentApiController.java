@@ -2,7 +2,7 @@ package com.social.controller.comment;
 
 import com.social.annotation.SocialUser;
 import com.social.domain.Comment;
-import com.social.domain.CommentData;
+import com.social.dto.CommentData;
 import com.social.domain.User;
 import com.social.service.CommentService;
 
@@ -26,14 +26,13 @@ public class CommentApiController {
 
     @PostMapping("/post")
     public Comment postComment(@SocialUser User user, @RequestBody CommentData commentData, HttpServletRequest request) {
-        Comment comment = Comment.builder()
+        return commentService.createComment(Comment.builder()
                 .clientIp(request.getRemoteAddr())
                 .content(commentData.getContent())
                 .articleIdx(commentData.getArticleIdx())
                 .parentIdx(commentData.getParentIdx())
                 .user(user)
-                .build();
-        return commentService.createComment(comment);
+                .build());
     }
 
 }

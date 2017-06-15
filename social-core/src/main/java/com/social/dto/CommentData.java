@@ -1,4 +1,4 @@
-package com.social.domain;
+package com.social.dto;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;

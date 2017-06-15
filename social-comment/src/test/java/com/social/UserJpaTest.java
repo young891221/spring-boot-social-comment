@@ -1,7 +1,7 @@
 package com.social;
 
-import com.social.domain.enums.SocialType;
 import com.social.domain.User;
+import com.social.domain.enums.SocialType;
 import com.social.repository.UserRepository;
 
 import org.junit.Before;
@@ -19,6 +19,7 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringRunner.class)
 //@DataJpaTest(useDefaultFilters = false, excludeFilters = @ComponentScan.Filter(RedisHttpSessionConfiguration.class))
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest(classes = SocialApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserJpaTest {
     private static final String TEST_PRINCIPAL = "1355321987876904";
