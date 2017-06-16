@@ -29,6 +29,11 @@ public class HomeController {
         return "login";
     }
 
+    @GetMapping(value = "/login/alert")
+    public String loginAlert() {
+        return "loginAlert";
+    }
+
     @GetMapping(value = "/error")
     public String error(@RequestParam String message, Model model) {
         model.addAttribute("message", message);

@@ -17,6 +17,4 @@ public class CommentData {
     private Long articleIdx;
     @JsonProperty("parentIdx")
     private Long parentIdx;
-    @JsonProperty("isShare")
-    private boolean isShare;
 }

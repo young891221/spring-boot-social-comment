@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         http
             .authorizeRequests()
-                .antMatchers("/", "/login/**",  "/lib/**", "/img/**", "/twitter/complete", "/console/**").permitAll()
+                .antMatchers("/", "/login/**",  "/lib/**", "/img/**", "/twitter/complete", "/console/**", "/comment/**").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .headers().frameOptions().disable()

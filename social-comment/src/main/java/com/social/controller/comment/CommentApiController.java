@@ -31,7 +31,7 @@ public class CommentApiController {
                 .content(commentData.getContent())
                 .articleIdx(commentData.getArticleIdx())
                 .parentIdx(commentData.getParentIdx())
-                .user(user)
+                .userName(user.getUserName())
                 .build());
     }
 

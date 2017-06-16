@@ -4,17 +4,15 @@ package com.social.domain;
 import com.social.domain.enums.Status;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Builder;
@@ -57,16 +55,25 @@ public class Comment {
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    @ManyToOne(fetch =  FetchType.LAZY)
+    @Column(name = "user_name")
+    private String userName;
+
+    /*@ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name="user_idx")
-    private User user;
+    private User user;*/
 
     @Builder
-    public Comment(String content, String clientIp, long articleIdx, long parentIdx, User user) {
+    public Comment(String content, String clientIp, long articleIdx, long parentIdx, String userName) {
         this.content = content;
         this.clientIp = clientIp;
         this.articleIdx = articleIdx;
         this.parentIdx = parentIdx;
-        this.user = user;
+        this.userName = userName;
+        this.createdAt = LocalDateTime.now();
+        this.modifiedAt = LocalDateTime.now();
+    }
+
+    public String getConvertModifiedAt() {
+        return modifiedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm"));
     }
 }
