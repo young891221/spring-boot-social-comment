@@ -5,34 +5,26 @@
 </head>
 <body>
 
-<div style="display: block;">
-    <div style="float: left;">
-        <input type="text" id="content" value="" placeholder="댓글을 작성해주세요." style="border: none; outline: none;">
-        <input type="hidden" id="articleIdx" value="${articleIdx}" readonly>
-        <input type="hidden" id="parentIdx" value="0">
-        <button id="postBtn" class="btn btn-default" type="submit">등록</button>
-        <#if isAuthenticated>
-        <a class="btn btn-default" href="/logout" role="button">logout</a>
-        </#if>
-    </div>
+<div style="float: left;">
+    <input type="text" id="content" value="" placeholder="댓글을 작성해주세요." style="border: none; outline: none;">
+    <input type="hidden" id="articleIdx" value="${articleIdx}" readonly>
+    <input type="hidden" id="parentIdx" value="0">
+    <button id="postBtn" class="btn btn-default" type="submit">등록</button>
+    <#if isAuthenticated>
+    <a class="btn btn-default" href="/logout" role="button">logout</a>
+    </#if>
 </div><br>
 
-<div id="layer1" class="pop-layer" data-user="none">
-    <div class="pop-container">
-        <div class="pop-conts">
-            <h2>댓글 리스트</h2>
-            <div id="comment-placeholder"></div>
-            <#if commentPage?? && (commentPage.totalElements > 0) >
-                <#list commentPage.content as data>
-                <div class="personal-comment-box">
-                    <span style="font-size: 15px; font-weight: bold; color: #1f326a">${data.userName}</span> ${data.convertModifiedAt}<br>
-                    <span style="font-size: 15px; font-weight: bold;">${data.content}</span><br>
-                </div>
-                </#list>
-            </#if>
-        </div>
+<h2>댓글 리스트</h2>
+<div id="comment-placeholder"></div>
+<#if commentPage?? && (commentPage.totalElements > 0) >
+    <#list commentPage.content as data>
+    <div>
+        <span style="font-size: 15px; font-weight: bold; color: #1f326a">${data.userName}</span> ${data.convertModifiedAt}<br>
+        <span style="font-size: 15px; font-weight: bold;">${data.content}</span><br><br>
     </div>
-</div>
+    </#list>
+</#if>
 
 
 <script src="/lib/js/jquery.min.js"></script>
@@ -40,7 +32,7 @@
 
 <script id="commentTemplate" type="text/x-handlebars-template">
     {{#commentData}}
-    <div class="personal-comment-box">
+    <div>
         <span style="font-size: 15px; font-weight: bold; color: #1f326a">{{userName}}</span> {{convertModifiedAt}}<br>
         <span style="font-size: 15px; font-weight: bold;">{{content}}</span><br>
     </div>
