@@ -2,6 +2,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/lib/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/lib/css/main.css"/>
 </head>
 <body>
 
@@ -16,25 +17,39 @@
 </div><br>
 
 <h2>댓글 리스트</h2>
-<div id="comment-placeholder"></div>
+<div id="comment-placeholder">
 <#if commentPage?? && (commentPage.totalElements > 0) >
     <#list commentPage.content as data>
-    <div>
-        <span style="font-size: 15px; font-weight: bold; color: #1f326a">${data.userName}</span> ${data.convertModifiedAt}<br>
-        <span style="font-size: 15px; font-weight: bold;">${data.content}</span><br><br>
-    </div>
+        <div class="comment">
+            <div style="float: left; margin-right: 10px">
+                <a href="${data.user.userImage}" target="_blank"><img src="${data.user.userImage}"></a>
+            </div>
+            <div style="float: left; text-align: left;">
+                <span style="color: darkblue; font-weight: bold;">${data.user.userName}</span> ${data.convertModifiedAt}
+                <br><span style="font-size: 15px; font-weight: bold;"> ${data.content}</span><br>
+                <a href="javascript:;" class="warning" data-idx="${data.commentIdx}" style="text-decoration: none; color: red;">신고</a>
+            </div>
+            <br>
+        </div>
     </#list>
 </#if>
-
+</div>
 
 <script src="/lib/js/jquery.min.js"></script>
 <script src="/lib/js/handlebars.min.js"></script>
 
 <script id="commentTemplate" type="text/x-handlebars-template">
     {{#commentData}}
-    <div>
-        <span style="font-size: 15px; font-weight: bold; color: #1f326a">{{userName}}</span> {{convertModifiedAt}}<br>
-        <span style="font-size: 15px; font-weight: bold;">{{content}}</span><br>
+    <div class="comment">
+        <div style="float: left; margin-right: 10px">
+            <a href="{{user.userImage}}" target="_blank"><img src="{{user.userImage}}"></a>
+        </div>
+        <div style="float: left; text-align: left;">
+            <span style="color: darkblue; font-weight: bold;">{{user.userName}}</span> {{convertModifiedAt}}
+            <br><span style="font-size: 15px; font-weight: bold;"> {{content}}</span><br>
+            <a href="javascript:;" class="warning" data-idx="{{data.commentIdx}}" style="text-decoration: none; color: red;">신고</a>
+        </div>
+        <br>
     </div>
     {{/commentData}}
 </script>
@@ -74,7 +89,7 @@
                            result.commentData = data;
                            replyHtml = template(result);
                        }
-                       $('#comment-placeholder').append(replyHtml);
+                       $('#comment-placeholder').prepend(replyHtml);
                        $('#content').val('');
                    },
                    error: function () {

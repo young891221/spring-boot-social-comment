@@ -1,8 +1,6 @@
 package com.social.controller.comment;
 
-import com.social.annotation.SocialUser;
 import com.social.domain.Comment;
-import com.social.domain.User;
 import com.social.service.CommentService;
 
 import org.springframework.beans.factory.annotation.Autowired;

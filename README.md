@@ -12,11 +12,13 @@
 - Spring Boot 1.5.2
 - Spring Security Oauth2
 - Spring Social Twitter
+- Spring Session Data Redis
 - JPA
 - lombok
 - logback
 - Gradle 3.5
-- h2, redis
+- h2(MySQL), redis
+- handlebars.js
 
 ### Before Run
 ```

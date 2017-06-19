@@ -1,0 +1,128 @@
+.txt_box {
+    width: 100%;
+    border-top: thin solid darkgray;
+    border-right: thin solid darkgray;
+    border-bottom: thin solid darkgray;
+    border-left: thin solid darkgray;
+
+    padding: 10px 50px 10px 10px;
+}
+
+.reply_txt_box {
+    width: 100%;
+    border-top: thin solid darkgray;
+    border-right: thin solid darkgray;
+    border-bottom: thin solid darkgray;
+    border-left: thin solid darkgray;
+
+    margin-left: 20px;
+    padding: 10px 50px 10px 10px;
+}
+
+.comment {
+    width: 100%;
+    height: 7%;
+    border-bottom: thin solid #edeaea;
+    margin-bottom: 10px;
+    padding: 10px 10px 10px 10px;
+}
+
+#login_comment {
+    margin-left: 5px;
+    width: 100%;
+}
+
+#write_comment, .reply_write_comment {
+    width: 100%;
+    padding: 10px 50px 10px 10px;
+
+    border-top: thin solid darkgray;
+    border-right: thin solid darkgray;
+    border-bottom: thin solid darkgray;
+    border-left: thin solid darkgray;
+    margin-left: 5px;
+}
+
+#post_box {
+    width: 80%;
+}
+
+#write_comment_body, .reply_write_comment_body {
+    border-bottom: thin solid lightgrey;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+a.reply, a.warning {
+    font-size: 12px;
+}
+
+.zumImg {
+    float: left;
+}
+
+/*팝업*/
+.pop-layer .btn-r {
+    width: 100%;
+    margin: 10px 0 20px;
+    padding-top: 10px;
+    border-top: 1px solid #DDD;
+    text-align: right;
+}
+
+.personal-comment-box {
+    width: 100%;
+    margin: 10px 0 20px;
+    padding-top: 10px;
+    border-top: 1px solid #DDD;
+}
+
+.pop-layer {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 410px;
+    height: auto;
+    background-color: #fff;
+    z-index: 10;
+}
+
+.dim-layer {
+    display: none;
+    position: fixed;
+    _position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+.dim-layer .dimBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: .5;
+    filter: alpha(opacity=50);
+}
+
+.dim-layer .pop-layer {
+    display: block;
+}
+
+a.btn-layerClose {
+    display: inline-block;
+    height: 25px;
+    padding: 0 14px 0;
+    font-size: 13px;
+    line-height: 25px;
+    text-decoration: none;
+}
+
+#layer1 {
+    border:medium solid lightgrey;
+}

@@ -10,9 +10,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Builder;
@@ -55,20 +58,20 @@ public class Comment {
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    @Column(name = "user_name")
-    private String userName;
+    /*@Column(name = "user_name")
+    private String userName;*/
 
-    /*@ManyToOne(fetch =  FetchType.LAZY)
+    @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name="user_idx")
-    private User user;*/
+    private User user;
 
     @Builder
-    public Comment(String content, String clientIp, long articleIdx, long parentIdx, String userName) {
+    public Comment(String content, String clientIp, long articleIdx, long parentIdx, User user) {
         this.content = content;
         this.clientIp = clientIp;
         this.articleIdx = articleIdx;
         this.parentIdx = parentIdx;
-        this.userName = userName;
+        this.user = user;
         this.createdAt = LocalDateTime.now();
         this.modifiedAt = LocalDateTime.now();
     }
