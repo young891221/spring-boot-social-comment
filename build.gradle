@@ -65,8 +65,8 @@ project(':social-comment') {
 
 		compile('org.springframework.session:spring-session-data-redis')
 		compile("com.github.kstyrc:embedded-redis:0.6")
-		compile('com.h2database:h2')
-
+		
+		runtime('com.h2database:h2')
 		runtime('org.springframework.boot:spring-boot-devtools')
 		testCompile('org.springframework.boot:spring-boot-starter-test')
 	}

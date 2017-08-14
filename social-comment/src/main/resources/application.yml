@@ -7,6 +7,10 @@ datasource:
 spring:
   redis:
     host: localhost
+  h2:
+    console:
+      enabled: true
+      path: /console
 
 facebook :
   client :
