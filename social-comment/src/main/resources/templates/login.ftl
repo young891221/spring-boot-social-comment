@@ -17,7 +17,7 @@
     <a href="javascript:;" class="btn_social" data-social="kakao"><img src="/img/kakao.png" width="40px" height="40px"></a>
 </#if>
     <br><br>
-    <a href="/comment/test/1" class="btn-layerClose">댓글 보러가기</a>
+    <a href="/comment/test/1" class="btn-layerClose" style="color">댓글 보러가기</a>
 </div>
 
 
